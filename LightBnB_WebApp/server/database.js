@@ -206,11 +206,6 @@ const getAllProperties = (options, limit = 10) => {
   return pool.query(queryString, queryParams).then((res) => res.rows);
 };
 
-
-
-
-
-
 exports.getAllProperties = getAllProperties;
 
 
@@ -240,7 +235,18 @@ const addProperty = function (property) {
       console.log(err.message);
     });
 
-
-
 }
 exports.addProperty = addProperty;
+
+/*
+   * Adds a reservation from a specific user to the database
+   */
+const addReservation = function(reservation) {
+  return pool.query(`
+    INSERT INTO reservations (start_date, end_date, property_id, guest_id)
+    VALUES ($1, $2, $3, $4) RETURNING *;
+  `, [reservation.start_date, reservation.end_date, reservation.property_id, reservation.guest_id])
+  .then(res => res.rows[0])
+}
+
+exports.addReservation = addReservation;
