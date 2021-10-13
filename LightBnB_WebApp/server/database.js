@@ -53,7 +53,7 @@ const getUserWithId = function (id) {
   // return Promise.resolve(users[id]);
 
   return pool
-    .query("SELECT * FROM users WHERE id =$1", [id])
+    .query("SELECT * FROM users WHERE id = $1", [id])
     .then((result) => {
       console.log(result.rows);
       return result.rows[0];
@@ -102,10 +102,16 @@ const getAllReservations = function (guest_id, limit = 10) {
   // return getAllProperties(null, 2);
 
   return pool
-    .query(`SELECT properties.*, reservations.* 
-  FROM reservations
-  JOIN properties ON property_id = properties.id
-  WHERE reservations.guest_id = $1 AND reservations.end_date < now()::date`, [guest_id])
+    .query(`SELECT properties.*, reservations.*, AVG(rating) as average_rating
+    FROM reservations
+    JOIN properties ON reservations.property_id = properties.id
+    JOIN property_reviews ON properties.id = property_reviews.property_id
+    WHERE reservations.guest_id = $1
+    AND reservations.end_date < now()::date
+    GROUP BY properties.id, reservations.id
+    ORDER BY reservations.start_date
+    LIMIT $2;
+  `, [guest_id,limit])
     .then((result) => {
       // console.log("++++",result.rows);
       return result.rows;
