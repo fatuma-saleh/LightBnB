@@ -7,6 +7,7 @@ const pool = new Pool({
   host: 'localhost',
   database: 'lightbnb'
 });
+pool.connect();
 
 const properties = require('./json/properties.json');
 const users = require('./json/users.json');
@@ -98,11 +99,10 @@ exports.addUser = addUser;
  * @param {string} guest_id The id of the user.
  * @return {Promise<[{}]>} A promise to the reservations.
  */
-const getAllReservations = function (guest_id, limit = 10) {
+const getFulfilledReservations = function (guest_id, limit = 10) {
   // return getAllProperties(null, 2);
-
-  return pool
-    .query(`SELECT properties.*, reservations.*, AVG(rating) as average_rating
+  const queryString =`
+  SELECT properties.*, reservations.*, AVG(rating) as average_rating
     FROM reservations
     JOIN properties ON reservations.property_id = properties.id
     JOIN property_reviews ON properties.id = property_reviews.property_id
@@ -110,8 +110,10 @@ const getAllReservations = function (guest_id, limit = 10) {
     AND reservations.end_date < now()::date
     GROUP BY properties.id, reservations.id
     ORDER BY reservations.start_date
-    LIMIT $2;
-  `, [guest_id,limit])
+    LIMIT $2;`;
+  const params = [guest_id,limit];
+  return pool
+    .query(queryString,params)
     .then((result) => {
       // console.log("++++",result.rows);
       return result.rows;
@@ -121,7 +123,7 @@ const getAllReservations = function (guest_id, limit = 10) {
     });
 
 }
-exports.getAllReservations = getAllReservations;
+exports.getFulfilledReservations = getFulfilledReservations;
 
 
 /// Properties
@@ -250,3 +252,39 @@ const addReservation = function(reservation) {
 }
 
 exports.addReservation = addReservation;
+
+
+
+//  Gets upcoming reservations
+
+const getUpcomingReservations = function(guest_id, limit = 10) {
+  const queryString = `
+  SELECT properties.*, reservations.*, avg(rating) as average_rating
+  FROM reservations
+  JOIN properties ON reservations.property_id = properties.id
+  JOIN property_reviews ON properties.id = property_reviews.property_id 
+  WHERE reservations.guest_id = $1
+  AND reservations.start_date > now()::date
+  GROUP BY properties.id, reservations.id
+  ORDER BY reservations.start_date
+  LIMIT $2;`;
+  const params = [guest_id, limit];
+  return pool.query(queryString, params)
+    .then(res => res.rows);
+}
+
+exports.getUpcomingReservations = getUpcomingReservations;
+
+
+//  Updates an existing reservation with new information
+
+const updateReservation = function(reservationId, newReservationData) {
+
+}
+
+//
+//  Deletes an existing reservation
+//
+const deleteReservation = function(reservationId) {
+
+}

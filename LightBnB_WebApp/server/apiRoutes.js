@@ -15,7 +15,7 @@ module.exports = function(router, database) {
       res.error("💩");
       return;
     }
-    database.getAllReservations(userId)
+    database.getFulfilledReservations(userId)
     .then(reservations => res.send({reservations}))
     .catch(e => {
       console.error(e);
@@ -48,6 +48,21 @@ module.exports = function(router, database) {
       })
     } 
   })
+
+  router.get('/reservations/upcoming', (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      res.error("💩");
+      return;      
+    }
+    database.getUpcomingReservations(userId)
+    .then(reservations => res.send({ reservations }))
+    .catch(e => {
+      console.error(e);
+      res.send(e);
+    })
+  })
+
   
   return router;
 }
