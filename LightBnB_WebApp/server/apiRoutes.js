@@ -10,6 +10,7 @@ module.exports = function(router, database) {
   });
 
   router.get('/reservations', (req, res) => {
+    console.log("*****reservations0000gettt")
     const userId = req.session.userId;
     if (!userId) {
       res.error("💩");
@@ -36,6 +37,7 @@ module.exports = function(router, database) {
   });
 //****COMPASS */
   router.post('/reservations', (req, res) => {
+    // console.log("*****reservations0000postt")
     const userId = req.session.userId;
     if (userId) {
       database.addReservation({...req.body, guest_id: userId})
@@ -62,7 +64,32 @@ module.exports = function(router, database) {
       res.send(e);
     })
   })
-
   
+  router.get('/reservations/:reservation_id', (req, res) => {
+    const reservationId = req.params.reservation_id;
+    database.getIndividualReservation(reservationId)
+    .then(reservation => res.send(reservation))
+    .catch(e => {
+      console.error(e);
+      res.send(e);
+    })
+  })
+
+  // update an existing reservation
+  router.post('/reservations/:reservationId', (req, res) => {
+    const reservationId = req.params.reservationId;
+    database.updateReservation({...req.body, reservation_id: reservationId})
+    .then(reservation => {
+      res.send(reservation)
+    })
+  })
+  
+  // delete a reservation
+  router.delete('/reservations/:reservationId', (req, res) => {
+    const reservationId = req.params.reservationId;
+    database.deleteReservation(reservationId);
+  })
+  
+
   return router;
 }

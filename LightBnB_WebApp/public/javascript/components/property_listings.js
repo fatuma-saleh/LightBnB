@@ -33,10 +33,20 @@ $(() => {
     
     //checks to see if reservations have been added
     if (isReservation) {
+      // $('.update-button').on('click', function() {
+      //   const idData = $(this).attr('id').substring(16);
+      //   console.log(`update ${idData}`);          
+      // })
       $('.update-button').on('click', function() {
+        
         const idData = $(this).attr('id').substring(16);
-        console.log(`update ${idData}`);          
+        console.log("+++++",idData);
+        getIndividualReservation(idData).then(data => {
+          console.log("+++++",data);
+          views_manager.show("updateReservation", data);       
+        });
       })
+
       $('.delete-button').on('click', function() {
         const idData = $(this).attr('id').substring(16);
         console.log(`delete ${idData}`);          
