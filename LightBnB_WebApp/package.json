@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": { 
     "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "cookie-session": "^1.3.3",
