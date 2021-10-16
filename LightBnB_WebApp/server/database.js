@@ -293,6 +293,7 @@ exports.getIndividualReservation = getIndividualReservation;
 //
 const updateReservation = function(reservationData) {
   // base string
+  console.log("update reservation")
   let queryString = `UPDATE reservations SET `;
   const queryParams = [];
   if (reservationData.start_date) {
@@ -308,7 +309,10 @@ const updateReservation = function(reservationData) {
   }
   queryString += ` WHERE id = $${queryParams.length + 1} RETURNING *;`
   queryParams.push(reservationData.reservation_id);
-  console.log(queryString);
+  console.log("start_date",reservationData.start_date)
+  console.log("end_date",reservationData.end_date)
+  console.log("id",reservationData.reservation_id)
+  console.log("query string",queryString);
   return pool.query(queryString, queryParams)
     .then(res => res.rows[0])
     .catch(err => console.error(err));
@@ -322,7 +326,7 @@ exports.updateReservation = updateReservation;
 const deleteReservation = function(reservationId) {
   const queryParams = [reservationId];
   const queryString = `DELETE FROM reservations WHERE id = $1`;
-  return client.query(queryString, queryParams)
+  return pool.query(queryString, queryParams)
     .then(() => console.log("Successfully deleted!"))
     .catch(() => console.error(err));
 

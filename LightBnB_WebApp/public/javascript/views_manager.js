@@ -14,7 +14,7 @@ $(() => {
     $newReservationForm.detach();
     $updateReservationForm.detach();
     $('#reservation-details').detach();
-    let datatag = "";
+    let dataTag = "";
 
     switch (item) {
       case 'listings':
@@ -33,7 +33,7 @@ $(() => {
         $signUpForm.appendTo($main);
         break;
       case 'newReservation':
-          const dataTag = `<h4>${data}</h4>`;
+          dataTag = `<h4>${data}</h4>`;
           $newReservationForm.appendTo($main);
           // $("#datatag").empty();
           $(dataTag).appendTo("#datatag");
