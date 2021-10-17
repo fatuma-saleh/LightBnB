@@ -164,8 +164,9 @@ $(() => {
     const endDate = `${formArray[5].value}-${formArray[4].value}-${formArray[3].value}`
     const propertyId = $(this).find("#datatag h4").text();
     const dataObj = { start_date: startDate, end_date: endDate, property_id: propertyId }
-    submitReservation(dataObj)
-    .then(() => {
+    // $('#new_reservation_form')[0].reset();
+    submitReservation(dataObj) 
+    .then(() => {   
       views_manager.show('listings');
     })
     .catch((error) => {
