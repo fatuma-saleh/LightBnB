@@ -1,4 +1,5 @@
 $(() => {
+
   const $newReservationForm = $(`
   <form action="/api/reservations" method="post" id="new-reservation-form" class="new-reservation-form">
       <h3 id="new-reservation-header">Start Date</h3>
@@ -164,22 +165,22 @@ $(() => {
     const endDate = `${formArray[5].value}-${formArray[4].value}-${formArray[3].value}`
     const propertyId = $(this).find("#datatag h4").text();
     const dataObj = { start_date: startDate, end_date: endDate, property_id: propertyId }
-    // $('#new_reservation_form')[0].reset();
-    submitReservation(dataObj) 
-    .then(() => {   
-      views_manager.show('listings');
-    })
-    .catch((error) => {
-      console.error(error);
-      views_manager.show('listings');
-    })
+    $newReservationForm[0].reset();
+    submitReservation(dataObj)
+      .then(() => {
+        views_manager.show('listings');
+      })
+      .catch((error) => {
+        console.error(error);
+        views_manager.show('listings');
+      })
   });
 
-  $('body').on('click', '#reservation-form__cancel', function() {
+  $('body').on('click', '#reservation-form__cancel', function () {
     views_manager.show('listings');
     return false;
   });
-//******added the above code from compass */
+
   window.$newReservationForm = $newReservationForm;
 
 });

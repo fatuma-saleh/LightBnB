@@ -45,7 +45,7 @@ function getFulfilledReservations() {
   });
 }
 
-const submitProperty = function(data) {
+const submitProperty = function (data) {
   return $.ajax({
     method: "POST",
     url: "/api/properties",
@@ -53,7 +53,7 @@ const submitProperty = function(data) {
   });
 }
 
-const submitReservation = function(data) {
+const submitReservation = function (data) {
   return $.ajax({
     method: "POST",
     url: "/api/reservations",
@@ -75,7 +75,7 @@ function getIndividualReservation(reservationId) {
   })
 }
 
-const updateReservation = function(data) {
+const updateReservation = function (data) {
   return $.ajax({
     method: "POST",
     url: `/api/reservations/${data.reservation_id}`,
@@ -83,21 +83,21 @@ const updateReservation = function(data) {
   })
 }
 
-const deleteReservation = function(id) {
+const deleteReservation = function (id) {
   return $.ajax({
     method: "DELETE",
     url: `/api/reservations/${id}`
   })
 }
 
-const getReviewsByProperty = function(propertyId) {
+const getReviewsByProperty = function (propertyId) {
   const url = `api/reviews/${propertyId}`;
   return $.ajax({
     url,
   });
 }
 
-const submitReview = function(data) {
+const submitReview = function (data) {
   return $.ajax({
     method: "POST",
     url: `api/reviews/${data.reservationId}`,

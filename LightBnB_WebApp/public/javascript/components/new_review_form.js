@@ -21,6 +21,7 @@ $(() => {
     const reviewBody = $('#new-review-body').val();
     const reviewRating = $('#new-review-rating').val();
     const reservationId = $('#datatag h4').text();
+    
     // clear our review fields
     $('#new-review-rating').val("");
     $("#new-review-body").val("");

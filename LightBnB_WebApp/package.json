@@ -1,7 +1,7 @@
 {
   "name": "light_bnb_start",
   "version": "1.0.0",
-  "description": "",
+  "description": "This App allows  homeowners to rent out their homes to people on vacation ",
   "main": "index.js",
   "scripts": {
     "sass": "sass --watch sass/main.scss:public/styles/main.css",
@@ -9,7 +9,7 @@
     "start": "node server/server"
   },
   "keywords": [],
-  "author": "",
+  "author": "Fatuma Saleh",
   "license": "ISC",
   "dependencies": { 
     "bcrypt": "^3.0.8",
