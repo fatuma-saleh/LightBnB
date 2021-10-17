@@ -14,12 +14,20 @@ $(() => {
     $newReservationForm.detach();
     $updateReservationForm.detach();
     $('#reservation-details').detach();
+    $newReviewForm.detach();
+    $propertyReviews.detach();
     let dataTag = "";
 
     switch (item) {
       case 'listings':
         $propertyListings.appendTo($main);
         break;
+        case 'newReview':
+          dataTag = `<h4>${data}</h4>`;
+          $newReviewForm.appendTo($main);
+          $(dataTag).appendTo("#datatag");
+          console.log("new review clicked");
+          break;       
       case 'newProperty':
         $newPropertyForm.appendTo($main);
         break;
@@ -63,7 +71,15 @@ $(() => {
             $(errorMessage).appendTo('#error-message');
             break;
 
-      case 'error': {
+           case 'showReviews':
+              getReviewsByProperty(data)
+              .then(reviews => propertyReviews.addReviews(reviews))
+              $propertyReviews.appendTo($main);
+              break;  
+                
+           
+
+       case 'error': {
         const $error = $(`<p>${arguments[1]}</p>`);
         $error.appendTo('body');
         setTimeout(() => {
